@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">UpFood</string>
+    <string name="facebook_app_id">1280454619300888</string>
+    <string name="fb_login_protocol_scheme">fb1280454619300888</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_confirm_password">Enter Confirm Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="registration">Registration</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="don_t_have_an_account">"Don’t have an account? "</string>
+    <string name="sign_up">Sign up</string>
+    <string name="google_icon">Google icon</string>
+    <string name="facebook_icon">Facebook icon</string>
+    <string name="already_a_member">"Already a member? "</string>
+    <string name="register">Register</string>
+
+    <string name="show_less">Show less</string>
+    <string name="show_more">Show more</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="what_are_you_cooking_today">What are you cooking today?</string>
+</resources>
