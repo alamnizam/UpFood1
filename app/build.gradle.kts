@@ -74,7 +74,7 @@ dependencies {
 
     //Facebook
     //noinspection UseTomlInstead
-//    implementation("com.facebook.android:facebook-android-sdk:5.0.0")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
 
     //Icons
     //noinspection UseTomlInstead

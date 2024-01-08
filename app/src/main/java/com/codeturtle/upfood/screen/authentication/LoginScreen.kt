@@ -35,6 +35,7 @@ import com.codeturtle.upfood.screen.utils.CustomButton
 import com.codeturtle.upfood.screen.utils.CustomDoubleText
 import com.codeturtle.upfood.screen.utils.CustomTextField
 import com.codeturtle.upfood.screen.utils.GoogleFacebookSignUp
+import com.codeturtle.upfood.viewmodel.LoginViewModel
 
 @Preview(showSystemUi = true)
 @Composable
@@ -42,6 +43,7 @@ fun LoginScreen(
     onLoginClick: () -> Unit = {},
     onForgotClick: (Int) -> Unit = {},
     onSignUpClick: (Int) -> Unit = {},
+    loginViewModel: LoginViewModel? = null
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -51,7 +53,7 @@ fun LoginScreen(
         ) {
             GreetingSection()
             FormSection(onLoginClick, onForgotClick)
-            SignUpSection(onSignUpClick)
+            SignUpSection(onSignUpClick,loginViewModel)
         }
     }
 }
@@ -126,12 +128,15 @@ private fun FormSection(
 @Composable
 private fun SignUpSection(
     onRegister: (Int) -> Unit,
+    loginViewModel: LoginViewModel?,
 ) {
     OtherOptionForSignInText()
     Spacer(modifier = Modifier.padding(10.dp))
     GoogleFacebookSignUp(
         googleOnClick = { },
-        facebookOnClick = { }
+        facebookOnClick = {
+            
+        }
     )
     Spacer(modifier = Modifier.padding(10.dp))
     CustomDoubleText(

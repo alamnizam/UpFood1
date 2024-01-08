@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">UpFood</string>
+
     <string name="facebook_app_id">1280454619300888</string>
     <string name="fb_login_protocol_scheme">fb1280454619300888</string>
+    <string name="facebook_client_token">fb1280454619300888</string>
+
+    <string name="app_name">UpFood</string>
     <string name="name">Name</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_email">Enter Email</string>
