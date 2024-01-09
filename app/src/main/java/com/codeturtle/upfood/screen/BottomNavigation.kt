@@ -22,16 +22,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Badge
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -74,7 +75,7 @@ import com.codeturtle.upfood.screen.utils.transform
 @Composable
 fun CustomBottomNavigation(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
 ) {
     val screens = listOf(
         BottomBarScreen.Home,
@@ -102,7 +103,7 @@ fun CustomBottomNavigation(
                     NavigationBar(
                         containerColor = Color.Transparent
                     ) {
-                        Box{
+                        Box {
                             Image(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -111,7 +112,7 @@ fun CustomBottomNavigation(
                                 contentScale = ContentScale.FillBounds,
                                 contentDescription = "Bottom navigation background"
                             )
-                            Row{
+                            Row {
                                 screens.forEachIndexed { index, screen ->
                                     val isSelected = selectedItemIndex == index
                                     NavigationBarItem(
@@ -228,29 +229,37 @@ fun Navigation(
         Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter
     ) {
         val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
-        val navController: NavHostController = rememberNavController()
+        val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         when (navBackStackEntry?.destination?.route) {
             BottomBarScreen.Home.route -> {
                 bottomBarState.value = true
             }
+
             BottomBarScreen.SavedRecipe.route -> {
                 bottomBarState.value = true
             }
+
             BottomBarScreen.Notification.route -> {
                 bottomBarState.value = true
             }
+
             BottomBarScreen.Profile.route -> {
                 bottomBarState.value = true
             }
+
             HomeNavScreen.SearchRecipe.route -> {
                 bottomBarState.value = false
             }
+
             HomeNavScreen.RecipeDetail.route -> {
                 bottomBarState.value = false
             }
         }
-        CustomBottomNavigation(navController,bottomBarState)
+        CustomBottomNavigation(
+            navController = navController,
+            bottomBarState = bottomBarState
+        )
         AnimatedVisibility(
             visible = bottomBarState.value,
             enter = slideInVertically(initialOffsetY = { it }),
@@ -331,7 +340,8 @@ fun AnimatedFab(
         onClick = onClick,
         elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
         containerColor = backgroundColor,
-        modifier = modifier.scale(1.2f)
+        modifier = modifier.scale(1.2f),
+        shape = RoundedCornerShape(100)
     ) {
         icon?.let {
             Icon(
@@ -345,10 +355,14 @@ fun AnimatedFab(
 
 
 @Composable
+fun BottomNavigationScreen() {
+    BottomNavigation()
+}
+
 @Preview(
     device = "id:pixel_4a", showBackground = true, backgroundColor = 0xFFD8DDDC
 )
-fun BottomNavigationScreen(
-) {
-    BottomNavigation()
+@Composable
+fun BottomNavigationPreview() {
+    BottomNavigationScreen()
 }

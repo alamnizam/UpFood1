@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601949218979",
+    "project_id": "upfood-49355",
+    "storage_bucket": "upfood-49355.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601949218979:android:8e80fc42b1afdca865f716",
+        "android_client_info": {
+          "package_name": "com.codeturtle.upfood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnAEZO99U5kH6mvCBfOL9IST4dbAv-HaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

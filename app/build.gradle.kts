@@ -2,6 +2,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -41,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     packaging {
         resources {
@@ -61,6 +64,13 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.material.icons.extended.android)
+    implementation(libs.androidx.material)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -71,16 +81,8 @@ dependencies {
     //Rating bar
     //noinspection UseTomlInstead
     implementation("com.github.SmartToolFactory:Compose-RatingBar:2.1.1")
+}
 
-    //Facebook
-    //noinspection UseTomlInstead
-//    implementation("com.facebook.android:facebook-android-sdk:5.0.0")
-
-    //Icons
-    //noinspection UseTomlInstead
-    implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
-    
-    //Material
-    //noinspection UseTomlInstead
-    implementation("androidx.compose.material:material:1.5.4")
+kapt {
+    correctErrorTypes = true
 }

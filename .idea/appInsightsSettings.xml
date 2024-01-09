@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.codeturtle.upfood" />
+                  <option name="mobileSdkAppId" value="1:601949218979:android:8e80fc42b1afdca865f716" />
+                  <option name="projectId" value="upfood-49355" />
+                  <option name="projectNumber" value="601949218979" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

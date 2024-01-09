@@ -1,4 +1,4 @@
-package com.codeturtle.upfood.screen.topscreens.home
+package com.codeturtle.upfood.screen.bottom_naviagtion_screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image

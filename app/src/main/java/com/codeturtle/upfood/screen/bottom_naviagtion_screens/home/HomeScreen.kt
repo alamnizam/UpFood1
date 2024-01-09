@@ -1,4 +1,4 @@
-package com.codeturtle.upfood.screen.topscreens.home
+package com.codeturtle.upfood.screen.bottom_naviagtion_screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,19 +61,27 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Recipe
+import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
+import com.codeturtle.upfood.screen.authentication.AuthViewModel
 import com.smarttoolfactory.ratingbar.RatingBar
 
 @Preview(showSystemUi = true)
 @Composable
-fun HomeScreen(
-    onFilterClick: () -> Unit = {},
-    onSearchClick: () -> Unit = {},
-    onClick:() -> Unit = {}
+fun HomePreview() {
+    HomeScreen(viewModel = null,navController = rememberNavController())
+}
 
-    ) {
+@Composable
+fun HomeScreen(
+    viewModel: AuthViewModel? = hiltViewModel(),
+    navController: NavHostController
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,16 +92,26 @@ fun HomeScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            GreetingSection()
-            Spacer(modifier = Modifier.padding(10.dp))
-            SearchSection(
-                onFilterClick = onFilterClick,
-                onSearchClick = onSearchClick
+            GreetingSection(
+                name = "Hello ${viewModel?.currentUser?.displayName ?: "user"}",
             )
             Spacer(modifier = Modifier.padding(10.dp))
-            SaveList(onClick = onClick)
+            SearchSection(
+                onFilterClick = {
+                    navController.navigate(route = HomeNavScreen.SearchRecipe.route)
+                },
+                onSearchClick = {
+                    navController.navigate(route = HomeNavScreen.SearchRecipe.route)
+                }
+            )
             Spacer(modifier = Modifier.padding(10.dp))
-            NewRecipes(onClick = onClick)
+            SaveList(onClick = {
+                navController.navigate(route = HomeNavScreen.RecipeDetail.route)
+            })
+            Spacer(modifier = Modifier.padding(10.dp))
+            NewRecipes(onClick = {
+                navController.navigate(route = HomeNavScreen.RecipeDetail.route)
+            })
             Spacer(modifier = Modifier.padding(70.dp))
         }
     }
@@ -110,64 +128,52 @@ fun NewRecipes(
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
         )
     )
     Text(
-        text = "New Recipes",
-        style = TextStyle(
+        text = "New Recipes", style = TextStyle(
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
@@ -176,22 +182,23 @@ fun NewRecipes(
     )
     LazyRow {
         items(newRecipes) { recipe ->
-            NewRecipesItem(recipe,onClick)
+            NewRecipesItem(recipe, onClick)
         }
     }
 }
 
 @Composable
 fun NewRecipesItem(
-    recipe: Recipe,
-    onClick: () -> Unit
+    recipe: Recipe, onClick: () -> Unit
 ) {
     var rating by remember { mutableFloatStateOf(3.6f) }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(15.dp, Alignment.Start),
         verticalAlignment = Alignment.Top,
-        modifier = Modifier.width(251.dp).clickable(onClick = onClick)
+        modifier = Modifier
+            .width(251.dp)
+            .clickable(onClick = onClick)
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -202,13 +209,10 @@ fun NewRecipesItem(
                     .wrapContentHeight()
                     .padding(top = 30.dp, end = 10.dp)
                     .background(
-                        color = Color.Transparent,
-                        shape = RoundedCornerShape(size = 10.dp)
-                    ),
-                elevation = CardDefaults.cardElevation(
+                        color = Color.Transparent, shape = RoundedCornerShape(size = 10.dp)
+                    ), elevation = CardDefaults.cardElevation(
                     defaultElevation = 2.dp
-                ),
-                shape = RoundedCornerShape(size = 10.dp)
+                ), shape = RoundedCornerShape(size = 10.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -218,7 +222,9 @@ fun NewRecipesItem(
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp)
+                            .padding(
+                                start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp
+                            )
                             .width(139.dp),
                         text = "Steak with tomato sauce and bulgur rice.",
                         maxLines = 1,
@@ -268,8 +274,7 @@ fun NewRecipesItem(
                             }
                             Spacer(modifier = Modifier.padding(start = 10.dp))
                             Text(
-                                text = "By ${recipe.creator?.name}",
-                                style = TextStyle(
+                                text = "By ${recipe.creator?.name}", style = TextStyle(
                                     fontSize = 11.sp,
                                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                     fontWeight = FontWeight(400),
@@ -287,8 +292,7 @@ fun NewRecipesItem(
                             )
                             Spacer(modifier = Modifier.padding(start = 10.dp))
                             Text(
-                                text = "${recipe.timeToCook} mins",
-                                style = TextStyle(
+                                text = "${recipe.timeToCook} mins", style = TextStyle(
                                     fontSize = 11.sp,
                                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                     fontWeight = FontWeight(400),
@@ -332,64 +336,52 @@ fun SaveList(
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator1
+                name = "James Milner", profile = R.drawable.creator1
             )
-        ),
-        Recipe(
+        ), Recipe(
             name = "Classic Greek Salad",
             image = R.drawable.image2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
-                name = "James Milner",
-                profile = R.drawable.creator2
+                name = "James Milner", profile = R.drawable.creator2
             )
         )
     )
     Text(
-        text = "Save Recipes",
-        style = TextStyle(
+        text = "Save Recipes", style = TextStyle(
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
@@ -405,8 +397,7 @@ fun SaveList(
 
 @Composable
 fun RecipeItem(
-    recipe: Recipe,
-    onClick:() -> Unit
+    recipe: Recipe, onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -425,14 +416,11 @@ fun RecipeItem(
                     .width(150.dp)
                     .wrapContentHeight()
                     .background(
-                        color = Color.Transparent,
-                        shape = RoundedCornerShape(size = 12.dp)
+                        color = Color.Transparent, shape = RoundedCornerShape(size = 12.dp)
                     )
-                    .padding(top = 60.dp),
-                elevation = CardDefaults.cardElevation(
+                    .padding(top = 60.dp), elevation = CardDefaults.cardElevation(
                     defaultElevation = 2.dp
-                ),
-                shape = RoundedCornerShape(size = 12.dp)
+                ), shape = RoundedCornerShape(size = 12.dp)
             ) {
                 Column(
                     modifier = Modifier.background(color = Color(0xFFD9D9D9))
@@ -476,8 +464,7 @@ fun RecipeItem(
                                 )
                             )
                             Text(
-                                text = "${recipe.timeToCook} Mins",
-                                style = TextStyle(
+                                text = "${recipe.timeToCook} Mins", style = TextStyle(
                                     fontSize = 11.sp,
                                     fontFamily = FontFamily(Font(R.font.poppins_medium)),
                                     fontWeight = FontWeight(600),
@@ -493,8 +480,7 @@ fun RecipeItem(
                                 .background(
                                     color = Color(0xFFFFFFFF),
                                     shape = RoundedCornerShape(size = 12.dp)
-                                ),
-                            contentAlignment = Center
+                                ), contentAlignment = Center
                         ) {
                             Icon(
                                 modifier = Modifier
@@ -512,8 +498,7 @@ fun RecipeItem(
 
             }
             Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Center
+                modifier = Modifier.fillMaxWidth(), contentAlignment = Center
             ) {
                 Image(
                     modifier = Modifier
@@ -527,16 +512,14 @@ fun RecipeItem(
                 Box(
                     modifier = Modifier
                         .padding(10.dp)
-                        .fillMaxWidth(),
-                    contentAlignment = TopEnd
+                        .fillMaxWidth(), contentAlignment = TopEnd
                 ) {
                     Row(
                         modifier = Modifier
                             .wrapContentWidth()
                             .height(16.dp)
                             .background(
-                                color = Color(0xFFFFE1B3),
-                                shape = RoundedCornerShape(size = 20.dp)
+                                color = Color(0xFFFFE1B3), shape = RoundedCornerShape(size = 20.dp)
                             )
                             .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
                     ) {
@@ -546,8 +529,7 @@ fun RecipeItem(
                             tint = Color(color = 0xFFFFAD30)
                         )
                         Text(
-                            text = "${recipe.rating}",
-                            style = TextStyle(
+                            text = "${recipe.rating}", style = TextStyle(
                                 fontSize = 8.sp,
                                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                 fontWeight = FontWeight(400),
@@ -565,8 +547,7 @@ fun RecipeItem(
 
 @Composable
 private fun SearchSection(
-    onFilterClick: () -> Unit = {},
-    onSearchClick: () -> Unit = {}
+    onFilterClick: () -> Unit = {}, onSearchClick: () -> Unit = {}
 ) {
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
@@ -575,11 +556,10 @@ private fun SearchSection(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        OutlinedTextField(
-            modifier = Modifier
-                .width(0.dp)
-                .weight(8f)
-                .border(2.dp, Color(0xFFD9D9D9), RoundedCornerShape(15.dp)),
+        OutlinedTextField(modifier = Modifier
+            .width(0.dp)
+            .weight(8f)
+            .border(2.dp, Color(0xFFD9D9D9), RoundedCornerShape(15.dp)),
             value = text,
             onValueChange = {
                 text = it
@@ -591,9 +571,7 @@ private fun SearchSection(
                 Text(
                     modifier = Modifier.clickable(
                         onClick = onSearchClick
-                    ),
-                    text = "Search",
-                    style = TextStyle(
+                    ), text = "Search", style = TextStyle(
                         fontSize = 11.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
                         fontWeight = FontWeight(400),
@@ -628,18 +606,14 @@ private fun SearchSection(
                         tint = Color(0xFFD9D9D9)
                     )
                 }
-            }
-        )
+            })
 
         Card(
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 20.dp,
-                pressedElevation = 10.dp
-            ),
-            colors = CardDefaults.cardColors(
+                defaultElevation = 20.dp, pressedElevation = 10.dp
+            ), colors = CardDefaults.cardColors(
                 containerColor = Color(0xFF129575),
-            ),
-            modifier = Modifier
+            ), modifier = Modifier
                 .height(55.dp)
                 .weight(2f)
                 .padding(start = 20.dp)
@@ -652,8 +626,7 @@ private fun SearchSection(
                 contentAlignment = Center
             ) {
                 Icon(
-                    modifier = Modifier
-                        .size(25.dp),
+                    modifier = Modifier.size(25.dp),
                     imageVector = Icons.Outlined.Tune,
                     contentDescription = "Filter icon",
                     tint = Color.White
@@ -666,11 +639,10 @@ private fun SearchSection(
 
 @Composable
 fun GreetingSection(
-    name: String = "Hello Jega", onProfileClick: () -> Unit = {}
+    name: String = "Hello user"
 ) {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
+        horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.height(60.dp)
@@ -685,10 +657,7 @@ fun GreetingSection(
             )
 
             Text(
-                text = stringResource(R.string.what_are_you_cooking_today),
-
-                // Text Style/Smaller Text/Regular
-                style = TextStyle(
+                text = stringResource(R.string.what_are_you_cooking_today), style = TextStyle(
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
@@ -697,17 +666,19 @@ fun GreetingSection(
             )
         }
         Card(
-            modifier = Modifier.clickable(onClick = onProfileClick),
+//            modifier = Modifier.clickable(onClick = {
+//                navController.navigate(
+//                    route = BottomBarScreen.Profile.route
+//                )
+//            }),
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp,
-                pressedElevation = 10.dp
+                defaultElevation = 10.dp, pressedElevation = 10.dp
             ), colors = CardDefaults.cardColors(
                 containerColor = Color(0xFFFFCE80),
             )
         ) {
             Image(
-                modifier = Modifier
-                    .size(60.dp),
+                modifier = Modifier.size(60.dp),
                 painter = painterResource(id = R.drawable.profile_male),
                 contentDescription = "image description",
                 contentScale = ContentScale.FillBounds

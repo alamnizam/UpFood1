@@ -8,12 +8,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.codeturtle.upfood.naviagtion.sreen_route.BottomBarScreen
 import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
-import com.codeturtle.upfood.screen.topscreens.NotificationScreen
-import com.codeturtle.upfood.screen.topscreens.ProfileScreen
-import com.codeturtle.upfood.screen.topscreens.SaveRecipesScreen
-import com.codeturtle.upfood.screen.topscreens.home.HomeScreen
-import com.codeturtle.upfood.screen.topscreens.home.RecipeDetailScreen
-import com.codeturtle.upfood.screen.topscreens.home.SearchRecipeScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.NotificationScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.SaveRecipesScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.home.HomeScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.home.RecipeDetailScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.home.SearchRecipeScreen
+import com.codeturtle.upfood.screen.bottom_naviagtion_screens.profile.ProfileScreen
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
@@ -23,17 +23,7 @@ fun HomeNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.Home.route
     ) {
         composable(route = BottomBarScreen.Home.route) {
-            HomeScreen(
-                onFilterClick = {
-                    navController.navigate(Graph.HOME_NAV)
-                },
-                onSearchClick = {
-                    navController.navigate(Graph.HOME_NAV)
-                },
-                onClick = {
-                    navController.navigate(HomeNavScreen.RecipeDetail.route)
-                }
-            )
+            HomeScreen(navController = navController)
         }
         composable(route = BottomBarScreen.SavedRecipe.route) {
             SaveRecipesScreen()

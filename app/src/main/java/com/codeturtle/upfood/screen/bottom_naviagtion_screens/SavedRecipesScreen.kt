@@ -1,4 +1,4 @@
-package com.codeturtle.upfood.screen.topscreens
+package com.codeturtle.upfood.screen.bottom_naviagtion_screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
