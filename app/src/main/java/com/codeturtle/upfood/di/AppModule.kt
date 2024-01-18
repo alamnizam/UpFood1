@@ -1,7 +1,7 @@
 package com.codeturtle.upfood.di
 
-import com.codeturtle.upfood.data.AuthRepository
-import com.codeturtle.upfood.data.AuthRepositoryImpl
+import com.codeturtle.upfood.data.repositories.AuthRepository
+import com.codeturtle.upfood.data.repositories.AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides

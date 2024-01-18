@@ -24,4 +24,6 @@
     <string name="show_more">Show more</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="what_are_you_cooking_today">What are you cooking today?</string>
+    <string name="send">Send</string>
+    <string name="go_to">"Go to "</string>
 </resources>

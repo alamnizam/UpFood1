@@ -156,7 +156,7 @@ fun SearchListSection(
     val recipes = mutableListOf(
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image1,
+            image = R.drawable.r1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
@@ -166,7 +166,7 @@ fun SearchListSection(
         ),
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image2,
+            image = R.drawable.r2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
@@ -176,7 +176,7 @@ fun SearchListSection(
         ),
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image1,
+            image = R.drawable.r3,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
@@ -186,7 +186,7 @@ fun SearchListSection(
         ),
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image2,
+            image = R.drawable.r4,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
@@ -196,7 +196,7 @@ fun SearchListSection(
         ),
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image1,
+            image = R.drawable.r2,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(
@@ -206,7 +206,7 @@ fun SearchListSection(
         ),
         Recipe(
             name = "Classic Greek Salad",
-            image = R.drawable.image2,
+            image = R.drawable.r1,
             timeToCook = 10,
             rating = 4.5,
             creator = Creator(

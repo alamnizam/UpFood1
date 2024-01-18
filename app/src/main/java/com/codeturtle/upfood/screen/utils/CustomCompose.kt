@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,7 +39,7 @@ import com.codeturtle.upfood.R
 @Composable
 fun CustomButton(buttonText: String,onClick: () -> Unit) {
     Button(modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF129575)),
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         shape = RoundedCornerShape(size = 10.dp),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 10.dp
@@ -54,8 +55,7 @@ fun CustomButton(buttonText: String,onClick: () -> Unit) {
                     fontFamily = FontFamily(Font(R.font.poppins_medium)),
                     fontWeight = FontWeight(600),
                     color = Color(0xFFFFFFFF),
-
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center
                 )
             )
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
@@ -127,7 +127,7 @@ fun CustomDoubleText(
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_medium)),
                     fontWeight = FontWeight(500),
-                    color = Color(0xFF000000)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 append(nonUnderlineText)
@@ -137,7 +137,7 @@ fun CustomDoubleText(
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_medium)),
                     fontWeight = FontWeight(500),
-                    color = Color(0xFFFF9C00),
+                    color = MaterialTheme.colorScheme.tertiary,
                     textDecoration = TextDecoration.Underline
                 )
             ) {

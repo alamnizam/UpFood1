@@ -2,10 +2,29 @@ package com.codeturtle.upfood.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+sealed class ThemeColor(
+    val background: Color,
+    val surface: Color,
+    val primary: Color,
+    val secondary: Color,
+    val tertiary: Color,
+    val text: Color,
+) {
+    data object Night : ThemeColor(
+        background = Color(0xFF000000),
+        surface = Color(0xFF000000),
+        primary = Color(0xFF512781),
+        secondary = Color(0xFFBA53FE),
+        tertiary = Color(0xFFBB83E0),
+        text = Color(0xFFFFFFFF)
+    )
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+    data object Day : ThemeColor(
+        background = Color(0xFFFFFFFF),
+        surface = Color(0xFFFFFFFF),
+        primary = Color(0xFF341953),
+        secondary = Color(0xFFA248DD),
+        tertiary = Color(0xFF8D60AA),
+        text = Color(0xFF000000)
+    )
+}

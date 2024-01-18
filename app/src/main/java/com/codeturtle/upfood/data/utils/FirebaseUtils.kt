@@ -15,5 +15,8 @@ suspend fun <T> Task<T>.await() : T{
                 cont.resume(it.result,null)
             }
         }
+        addOnFailureListener {
+            cont.resumeWithException(it)
+        }
     }
 }

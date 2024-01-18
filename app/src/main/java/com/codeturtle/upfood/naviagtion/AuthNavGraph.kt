@@ -20,7 +20,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
             RegistrationScreen(navController = navController)
         }
         composable(route = AuthScreen.Forgot.route) {
-            ForgotPasswordScreen()
+            ForgotPasswordScreen(navController = navController)
         }
     }
 }

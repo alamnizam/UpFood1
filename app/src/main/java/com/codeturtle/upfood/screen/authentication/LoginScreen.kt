@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.authentication
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -29,8 +30,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,12 +73,28 @@ import com.codeturtle.upfood.naviagtion.Graph
 import com.codeturtle.upfood.screen.utils.CustomButton
 import com.codeturtle.upfood.screen.utils.CustomDoubleText
 import com.codeturtle.upfood.screen.utils.GoogleFacebookSignUp
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 import java.util.regex.Pattern
 
-@Preview(showSystemUi = true)
+@Preview(
+    name="light-mode",
+    showBackground = true
+)
+@Preview(
+    name="dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
 @Composable
 fun LoginPreview() {
-    LoginScreen(viewModel = null,navController = rememberNavController())
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            LoginScreen(viewModel = null,navController = rememberNavController())
+        }
+    }
 }
 
 @Composable
@@ -95,11 +114,11 @@ fun LoginScreen(
             SignUpSection(navController)
 
         }
+        val context = LocalContext.current
         loginFlow?.value?.let {
             when (it) {
                 is Resource.Failure -> {
-                    val context = LocalContext.current
-                    Toast.makeText(context, "${it.exception}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
                 }
 
                 Resource.Loading -> {
@@ -107,6 +126,7 @@ fun LoginScreen(
                 }
 
                 is Resource.Success -> {
+
                     LaunchedEffect(Unit) {
                         navController.popBackStack(
                             route = Graph.AUTHENTICATION,
@@ -135,7 +155,6 @@ private fun GreetingSection() {
                     fontSize = 30.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_bold)),
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF000000),
                 )
             )
             Text(
@@ -143,7 +162,6 @@ private fun GreetingSection() {
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFF121212),
                 )
             )
         }
@@ -174,8 +192,7 @@ private fun LoginFormSection(
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF121212)
+                    fontWeight = FontWeight(400)
                 )
             )
             Spacer(modifier = Modifier.padding(3.dp))
@@ -209,7 +226,7 @@ private fun LoginFormSection(
                                 fontSize = 11.sp,
                                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                 fontWeight = FontWeight(400),
-                                color = Color(0xFFD9D9D9)
+                                color = Color(0xFF7C7878)
                             )
                         )
                     },
@@ -252,8 +269,7 @@ private fun LoginFormSection(
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF121212)
+                    fontWeight = FontWeight(400)
                 )
             )
             Spacer(modifier = Modifier.padding(3.dp))
@@ -286,7 +302,7 @@ private fun LoginFormSection(
                                 fontSize = 11.sp,
                                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                 fontWeight = FontWeight(400),
-                                color = Color(0xFFD9D9D9)
+                                color = Color(0xFF7C7878)
                             )
                         )
                     },
@@ -294,9 +310,9 @@ private fun LoginFormSection(
                     isError = isError,
 
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF129575),
-                        unfocusedBorderColor = Color(0xFFD9D9D9),
-                        cursorColor = Color(0xFF129575),
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.surface,
+                        cursorColor = MaterialTheme.colorScheme.primary,
                     ),
 
                     trailingIcon = {
@@ -308,7 +324,11 @@ private fun LoginFormSection(
                         val description = if (passwordVisible) "Hide password" else "Show password"
 
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(imageVector = image, description)
+                            Icon(
+                                imageVector = image,
+                                contentDescription = description,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
                         }
                     },
 
@@ -350,7 +370,7 @@ private fun LoginFormSection(
                 fontSize = 11.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFFFF9C00),
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
             ),
             onClick = {

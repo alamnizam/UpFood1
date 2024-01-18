@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.authentication
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -28,8 +29,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,12 +70,28 @@ import com.codeturtle.upfood.naviagtion.Graph
 import com.codeturtle.upfood.screen.utils.CustomButton
 import com.codeturtle.upfood.screen.utils.CustomDoubleText
 import com.codeturtle.upfood.screen.utils.GoogleFacebookSignUp
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 import java.util.regex.Pattern
 
-@Preview(showSystemUi = true)
+@Preview(
+    name="light-mode",
+    showBackground = true
+)
+@Preview(
+    name="dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
 @Composable
 fun RegistrationPreview() {
-    RegistrationScreen(viewModel = null, navController = rememberNavController())
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            RegistrationScreen(viewModel = null, navController = rememberNavController())
+        }
+    }
 }
 
 @Composable
@@ -80,7 +99,7 @@ fun RegistrationScreen(
     viewModel: AuthViewModel? = hiltViewModel(),
     navController: NavHostController
 ) {
-    val signUpFLow = viewModel?.signUpFLow?.collectAsState()
+    val signUpFlow = viewModel?.signUpFlow?.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -94,11 +113,11 @@ fun RegistrationScreen(
             SignUpFormSection(viewModel)
             LoginSection(navController)
         }
-        signUpFLow?.value?.let {
+        val context = LocalContext.current
+        signUpFlow?.value?.let {
             when (it) {
                 is Resource.Failure -> {
-                    val context = LocalContext.current
-                    Toast.makeText(context, "${it.exception}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, it.error, Toast.LENGTH_SHORT).show()
                 }
 
                 Resource.Loading -> {
@@ -106,13 +125,20 @@ fun RegistrationScreen(
                 }
 
                 is Resource.Success -> {
-                    LaunchedEffect(Unit) {
-                        navController.popBackStack(
-                            route = Graph.AUTHENTICATION,
-                            inclusive = true
-                        )
-                        navController.navigate(Graph.HOME)
+                    Toast.makeText(context, "User register successfully!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Verification email sent!!", Toast.LENGTH_SHORT).show()
+                    if(it.result.isEmailVerified){
+                        LaunchedEffect(Unit) {
+                            navController.popBackStack(
+                                route = Graph.AUTHENTICATION,
+                                inclusive = true
+                            )
+                            navController.navigate(Graph.HOME)
+                        }
+                    }else{
+                        Toast.makeText(context, "Please verify email!!", Toast.LENGTH_SHORT).show()
                     }
+
                 }
             }
         }
@@ -128,7 +154,7 @@ private fun GreetingSection() {
             fontSize = 20.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
-            color = Color(0xFF000000),
+            color = MaterialTheme.colorScheme.onPrimary
         )
     )
     Text(
@@ -137,7 +163,7 @@ private fun GreetingSection() {
             fontSize = 11.sp,
             fontFamily = FontFamily(Font(R.font.poppins_regular)),
             fontWeight = FontWeight(400),
-            color = Color(0xFF121212),
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     )
 }
@@ -172,7 +198,7 @@ private fun SignUpFormSection(
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF121212)
+                color = MaterialTheme.colorScheme.onPrimary
             )
         )
         Spacer(modifier = Modifier.padding(3.dp))
@@ -248,7 +274,7 @@ private fun SignUpFormSection(
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF121212)
+                color = MaterialTheme.colorScheme.onPrimary
             )
         )
         Spacer(modifier = Modifier.padding(3.dp))
@@ -325,7 +351,7 @@ private fun SignUpFormSection(
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF121212)
+                color = MaterialTheme.colorScheme.onPrimary
             )
         )
         Spacer(modifier = Modifier.padding(3.dp))
@@ -380,7 +406,11 @@ private fun SignUpFormSection(
                     val description = if (passwordVisible) "Hide password" else "Show password"
 
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, description)
+                        Icon(
+                            imageVector = image,
+                            contentDescription = description,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 },
 
@@ -421,7 +451,7 @@ private fun SignUpFormSection(
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF121212)
+                color = MaterialTheme.colorScheme.onPrimary
             )
         )
         Spacer(modifier = Modifier.padding(3.dp))
@@ -476,7 +506,11 @@ private fun SignUpFormSection(
                     val description = if (passwordVisible) "Hide password" else "Show password"
 
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(imageVector = image, description)
+                        Icon(
+                            imageVector = image,
+                            contentDescription = description,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 },
 
@@ -518,12 +552,12 @@ private fun SignUpFormSection(
             modifier = Modifier.background(Color.Transparent),
             elevation = CardDefaults.cardElevation(10.dp),
             shape = RoundedCornerShape(6.dp),
-            border = BorderStroke(1.5.dp, color = Color(0xFFFF9C00))
+            border = BorderStroke(1.5.dp, color = MaterialTheme.colorScheme.tertiary)
         ) {
             Box(
                 modifier = Modifier
                     .size(25.dp)
-                    .background(if (isChecked.value) Color(0xFFFF9C00) else Color.White)
+                    .background(if (isChecked.value) MaterialTheme.colorScheme.tertiary else Color.White)
                     .clickable {
                         isChecked.value = !isChecked.value
                     },
@@ -540,7 +574,7 @@ private fun SignUpFormSection(
                 fontSize = 11.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFFFF9C00),
+                color = MaterialTheme.colorScheme.tertiary
             )
         )
     }

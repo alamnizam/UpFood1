@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.bottom_naviagtion_screens.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,8 +34,10 @@ import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -69,12 +72,28 @@ import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Recipe
 import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
 import com.codeturtle.upfood.screen.authentication.AuthViewModel
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 import com.smarttoolfactory.ratingbar.RatingBar
 
-@Preview(showSystemUi = true)
+@Preview(
+    name="light-mode",
+    showBackground = true
+)
+@Preview(
+    name="dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
 @Composable
 fun HomePreview() {
-    HomeScreen(viewModel = null,navController = rememberNavController())
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            HomeScreen(viewModel = null,navController = rememberNavController())
+        }
+    }
 }
 
 @Composable
@@ -212,7 +231,7 @@ fun NewRecipesItem(
                         color = Color.Transparent, shape = RoundedCornerShape(size = 10.dp)
                     ), elevation = CardDefaults.cardElevation(
                     defaultElevation = 2.dp
-                ), shape = RoundedCornerShape(size = 10.dp)
+                ), shape = RoundedCornerShape(size = 10.dp),
             ) {
                 Column(
                     modifier = Modifier
@@ -559,7 +578,7 @@ private fun SearchSection(
         OutlinedTextField(modifier = Modifier
             .width(0.dp)
             .weight(8f)
-            .border(2.dp, Color(0xFFD9D9D9), RoundedCornerShape(15.dp)),
+            .border(2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(15.dp)),
             value = text,
             onValueChange = {
                 text = it
@@ -575,7 +594,7 @@ private fun SearchSection(
                         fontSize = 11.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
                         fontWeight = FontWeight(400),
-                        color = Color(0xFFD9D9D9)
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 )
             },
@@ -588,7 +607,7 @@ private fun SearchSection(
                 Icon(
                     imageVector = Icons.Outlined.Search,
                     contentDescription = "Search Icon",
-                    tint = Color(0xFFD9D9D9)
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             },
             shape = RoundedCornerShape(15.dp),
@@ -612,7 +631,7 @@ private fun SearchSection(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 20.dp, pressedElevation = 10.dp
             ), colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF129575),
+                containerColor = MaterialTheme.colorScheme.primary,
             ), modifier = Modifier
                 .height(55.dp)
                 .weight(2f)
@@ -652,7 +671,7 @@ fun GreetingSection(
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_bold)),
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF000000)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
 
@@ -661,7 +680,7 @@ fun GreetingSection(
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFFA9A9A9),
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             )
         }
@@ -674,7 +693,7 @@ fun GreetingSection(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 10.dp, pressedElevation = 10.dp
             ), colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFFFCE80),
+                containerColor = MaterialTheme.colorScheme.tertiary,
             )
         ) {
             Image(
