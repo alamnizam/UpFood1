@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.bottom_naviagtion_screens.profile
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,7 +38,9 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -68,11 +71,27 @@ import androidx.compose.ui.window.PopupProperties
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Recipe
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 
-@Preview(showSystemUi = true)
+@Preview(
+    name = "light-mode",
+    showBackground = true
+)
+@Preview(
+    name = "dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
 @Composable
 fun ProfilePreview() {
-    ProfileScreen()
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            ProfileScreen()
+        }
+    }
 }
 
 @Composable
@@ -100,8 +119,8 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFFFFFFF),
-                    titleContentColor = Color(0xFF181818),
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
                     Text(
@@ -111,7 +130,6 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
                             fontSize = 18.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             fontWeight = FontWeight(600),
-                            color = Color(0xFF181818),
                             textAlign = TextAlign.Center
                         )
                     )
@@ -126,7 +144,12 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
                         )
                     }
                     DropdownMenu(
-                        modifier = Modifier.width(width = 150.dp),
+                        modifier = Modifier
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .width(width = 150.dp),
                         expanded = expanded,
                         onDismissRequest = {
                             expanded = false
@@ -136,6 +159,11 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
                     ) {
                         listItems.forEach { menuItemData ->
                             DropdownMenuItem(
+                                modifier = Modifier
+                                    .background(
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(10.dp)
+                                    ),
                                 text = {
                                     Text(
                                         text = menuItemData.text,
@@ -278,7 +306,7 @@ fun Recipes(
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
-            color = Color(0xFF000000),
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     )
     LazyColumn {
@@ -427,7 +455,7 @@ fun RecipeList(
                         .wrapContentWidth()
                         .height(16.dp)
                         .background(
-                            color = Color(0xFFFFE1B3),
+                            color = MaterialTheme.colorScheme.tertiary,
                             shape = RoundedCornerShape(size = 20.dp)
                         )
                         .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
@@ -435,7 +463,7 @@ fun RecipeList(
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "Star",
-                        tint = Color(color = 0xFFFFAD30)
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = "${recipe.rating}",
@@ -464,7 +492,7 @@ fun ProfileInfo() {
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_bold)),
                 fontWeight = FontWeight(600),
-                color = Color(0xFF121212),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         )
 
@@ -474,7 +502,7 @@ fun ProfileInfo() {
                 fontSize = 11.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFFA9A9A9),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         )
 
@@ -485,7 +513,7 @@ fun ProfileInfo() {
                 fontSize = 11.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF797979),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         )
     }
@@ -524,7 +552,7 @@ fun ProfileTop() {
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFFA9A9A9)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
             Text(
@@ -535,7 +563,7 @@ fun ProfileTop() {
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_bold)),
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF121212),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center
                 )
             )
@@ -550,7 +578,7 @@ fun ProfileTop() {
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFFA9A9A9)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
             Text(
@@ -559,7 +587,7 @@ fun ProfileTop() {
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_bold)),
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF121212),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center
                 )
             )
@@ -574,7 +602,7 @@ fun ProfileTop() {
                     fontSize = 11.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFFA9A9A9)
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             )
             Text(
@@ -583,7 +611,7 @@ fun ProfileTop() {
                     fontSize = 20.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_bold)),
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF121212),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center
                 )
             )

@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.bottom_naviagtion_screens.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,7 +36,9 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -60,6 +63,7 @@ import androidx.compose.ui.unit.sp
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Ingredient
 import com.codeturtle.upfood.model.Procedure
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 import kotlinx.coroutines.launch
 
 enum class TabPage {
@@ -67,7 +71,28 @@ enum class TabPage {
     Procedure
 }
 
-@Preview(showSystemUi = true)
+@Preview(
+    name="light-mode",
+    showBackground = true
+)
+@Preview(
+    name="dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun RecipeDetailPreview() {
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            RecipeDetailScreen()
+        }
+    }
+
+}
+
 @Composable
 fun RecipeDetailScreen(
     onBackArrowClick: () -> Unit = {},
@@ -89,8 +114,8 @@ fun DetailToolbar(onBackArrowClick: () -> Unit) {
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFFFFFFF),
-                    titleContentColor = Color(0xFF181818),
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
                     Text(
@@ -100,7 +125,6 @@ fun DetailToolbar(onBackArrowClick: () -> Unit) {
                             fontSize = 18.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             fontWeight = FontWeight(600),
-                            color = Color(0xFF181818),
                             textAlign = TextAlign.Center
                         )
                     )
@@ -109,7 +133,8 @@ fun DetailToolbar(onBackArrowClick: () -> Unit) {
                     IconButton(onClick = onBackArrowClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back Navigation"
+                            contentDescription = "Back Navigation",
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -313,7 +338,8 @@ fun IngredientAndProcedure() {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dish),
-                    contentDescription = "dish icon"
+                    contentDescription = "dish icon",
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.padding(end = 5.dp))
                 Text(
@@ -322,8 +348,7 @@ fun IngredientAndProcedure() {
                         fontSize = 11.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
                         fontWeight = FontWeight(400),
-                        color = Color(0xFFA9A9A9),
-                        textAlign = TextAlign.Center
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 )
             }
@@ -336,7 +361,7 @@ fun IngredientAndProcedure() {
                         fontSize = 11.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
                         fontWeight = FontWeight(400),
-                        color = Color(0xFFA9A9A9),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 )
             }
@@ -379,7 +404,7 @@ private fun TabIngredientProcedure(
                     .padding(vertical = 10.dp)
                     .clip(RoundedCornerShape(20))
                     .background(
-                        Color(0xFF129575)
+                        MaterialTheme.colorScheme.primary
                     )
                 else Modifier
                     .clip(RoundedCornerShape(20))
@@ -402,7 +427,7 @@ private fun TabIngredientProcedure(
                             color = if (selected) {
                                 Color(0xFFFFFFFF)
                             } else {
-                                Color(0xFF71B1A1)
+                                MaterialTheme.colorScheme.primary
                             },
                             textAlign = TextAlign.Center,
                         )
@@ -486,7 +511,7 @@ fun ProcedureItem(procedure: Procedure) {
 fun IngredientItem(ingredient: Ingredient) {
     Card(
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 5.dp
+            defaultElevation = 2.dp
         ),
         modifier = Modifier.padding(bottom = 10.dp)
     ) {
@@ -494,7 +519,7 @@ fun IngredientItem(ingredient: Ingredient) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(76.dp)
-                .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(size = 12.dp)),
+                .background(color = Color(0xFFF3F1F1), shape = RoundedCornerShape(size = 12.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
@@ -583,7 +608,7 @@ fun RecipeCreator() {
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_bold)),
                         fontWeight = FontWeight(600),
-                        color = Color(0xFF121212),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 )
                 Row(
@@ -592,7 +617,7 @@ fun RecipeCreator() {
                     Icon(
                         imageVector = Icons.Filled.LocationOn,
                         contentDescription = "Location",
-                        tint = Color(0xFF71B1A1)
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = "Lagos, Nigeria",
@@ -600,7 +625,7 @@ fun RecipeCreator() {
                             fontSize = 11.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             fontWeight = FontWeight(400),
-                            color = Color(0xFFA9A9A9)
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     )
                 }
@@ -613,7 +638,7 @@ fun RecipeCreator() {
                 .height(37.dp)
                 .weight(3f),
             onClick = { },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF129575)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(size = 10.dp),
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 10.dp
@@ -659,7 +684,7 @@ fun RecipeTitle() {
                 lineHeight = 19.6.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFFA9A9A9),
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         )
     }
@@ -692,8 +717,7 @@ fun RecipeImage() {
                             colors = listOf(
                                 Color.Transparent,
                                 Color.Black
-                            ),
-                            startY = 160f
+                            )
                         )
                     )
             )
@@ -709,7 +733,7 @@ fun RecipeImage() {
                         .wrapContentWidth()
                         .height(16.dp)
                         .background(
-                            color = Color(0xFFFFE1B3),
+                            color = MaterialTheme.colorScheme.tertiary,
                             shape = RoundedCornerShape(size = 20.dp)
                         )
                         .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
@@ -717,7 +741,7 @@ fun RecipeImage() {
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "Star",
-                        tint = Color(color = 0xFFFFAD30)
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = "4.0",
@@ -775,7 +799,7 @@ fun RecipeImage() {
                                 .height(16.dp),
                             imageVector = Icons.Outlined.BookmarkAdd,
                             contentDescription = "Save Icon",
-                            tint = Color(0xFF129575)
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }

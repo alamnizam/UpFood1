@@ -538,14 +538,14 @@ fun RecipeItem(
                             .wrapContentWidth()
                             .height(16.dp)
                             .background(
-                                color = Color(0xFFFFE1B3), shape = RoundedCornerShape(size = 20.dp)
+                                color = MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(size = 20.dp)
                             )
                             .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Star,
                             contentDescription = "Star",
-                            tint = Color(color = 0xFFFFAD30)
+                            tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
                             text = "${recipe.rating}", style = TextStyle(
@@ -599,9 +599,9 @@ private fun SearchSection(
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF129575),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFFD9D9D9),
-                cursorColor = Color(0xFF129575),
+                cursorColor = MaterialTheme.colorScheme.primary,
             ),
             leadingIcon = {
                 Icon(

@@ -1,5 +1,6 @@
 package com.codeturtle.upfood.screen.bottom_naviagtion_screens.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,10 +41,12 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -75,9 +78,29 @@ import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Filter
 import com.codeturtle.upfood.model.Recipe
+import com.codeturtle.upfood.ui.theme.UpFoodTheme
 
+@Preview(
+    name = "light-mode",
+    showBackground = true
+)
+@Preview(
+    name = "dark-mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun SearchRecipePreview() {
+    UpFoodTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.surface
+        ) {
+            SearchRecipeScreen()
+        }
+    }
+}
 
-@Preview(showSystemUi = true)
 @Composable
 fun SearchRecipeScreen(
     onBackArrowClick: () -> Unit = {},
@@ -104,8 +127,8 @@ fun SearchToolbar(
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFFFFFFF),
-                    titleContentColor = Color(0xFF181818),
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
                     Text(
@@ -115,7 +138,6 @@ fun SearchToolbar(
                             fontSize = 18.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             fontWeight = FontWeight(600),
-                            color = Color(0xFF181818),
                             textAlign = TextAlign.Center
                         )
                     )
@@ -124,7 +146,8 @@ fun SearchToolbar(
                     IconButton(onClick = onBackArrowClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back Navigation"
+                            contentDescription = "Back Navigation",
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -229,7 +252,7 @@ fun SearchListSection(
         columns = GridCells.Adaptive(minSize = 128.dp)
     ) {
         items(recipes.size) { index ->
-            SearchRecipeItem(recipes, index,onRecipeClick)
+            SearchRecipeItem(recipes, index, onRecipeClick)
         }
     }
 }
@@ -238,7 +261,7 @@ fun SearchListSection(
 fun SearchRecipeItem(
     recipes: MutableList<Recipe>,
     index: Int,
-    onRecipeClick:() -> Unit
+    onRecipeClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -297,9 +320,8 @@ fun SearchRecipeItem(
                             fontSize = 8.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             fontWeight = FontWeight(400),
-                            color = Color(0xFFA9A9A9),
-
-                            )
+                            color = Color(0xFFA9A9A9)
+                        )
                     )
                 }
             }
@@ -315,7 +337,7 @@ fun SearchRecipeItem(
                         .wrapContentWidth()
                         .height(16.dp)
                         .background(
-                            color = Color(0xFFFFE1B3),
+                            color = MaterialTheme.colorScheme.tertiary,
                             shape = RoundedCornerShape(size = 20.dp)
                         )
                         .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
@@ -323,7 +345,7 @@ fun SearchRecipeItem(
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "Star",
-                        tint = Color(color = 0xFFFFAD30)
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = "${recipes[index].rating}",
@@ -360,7 +382,7 @@ private fun SearchSection() {
                 .focusRequester(focusRequester)
                 .width(0.dp)
                 .weight(8f)
-                .border(2.dp, Color(0xFFD9D9D9), RoundedCornerShape(15.dp)),
+                .border(2.dp, MaterialTheme.colorScheme.tertiary, RoundedCornerShape(15.dp)),
             value = text,
             onValueChange = {
                 text = it
@@ -373,20 +395,20 @@ private fun SearchSection() {
                         fontSize = 11.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
                         fontWeight = FontWeight(400),
-                        color = Color(0xFFD9D9D9)
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF129575),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFFD9D9D9),
-                cursorColor = Color(0xFF129575),
+                cursorColor = MaterialTheme.colorScheme.primary,
             ),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Search,
                     contentDescription = "Search Icon",
-                    tint = Color(0xFFD9D9D9)
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             },
             shape = RoundedCornerShape(15.dp),
@@ -402,7 +424,7 @@ private fun SearchSection() {
                         },
                         imageVector = Icons.Outlined.Close,
                         contentDescription = "Close Icon",
-                        tint = Color(0xFFD9D9D9)
+                        tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
             }
@@ -414,7 +436,7 @@ private fun SearchSection() {
                 pressedElevation = 10.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF129575),
+                containerColor = MaterialTheme.colorScheme.primary,
             ),
             modifier = Modifier
                 .height(55.dp)
@@ -464,12 +486,12 @@ private fun SearchSection() {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
-                        ){
+                        ) {
                             Button(
                                 modifier = Modifier.width(174.dp),
                                 onClick = {},
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color(color = 0xFF129575)
+                                    containerColor = MaterialTheme.colorScheme.primary
                                 ),
                                 shape = RoundedCornerShape(10.dp),
                                 elevation = ButtonDefaults.buttonElevation(
@@ -526,7 +548,7 @@ private fun CategoryList() {
                     .padding(end = 10.dp)
                     .background(
                         color = if (categories.indexOf(category) == index) {
-                            Color(0xFF129575)
+                            MaterialTheme.colorScheme.primary
                         } else {
                             Color.Transparent
                         },
@@ -545,7 +567,7 @@ private fun CategoryList() {
                         color = if (categories.indexOf(category) == index) {
                             Color(0xFFFFFFFF)
                         } else {
-                            Color(0xFF71B1A1)
+                            MaterialTheme.colorScheme.tertiary
                         },
                         textAlign = TextAlign.Center,
                     )
@@ -600,7 +622,7 @@ fun Category() {
             fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
-            color = Color(0xFF000000),
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     )
     ChipRow(timeFilters, emptySet())
@@ -637,7 +659,7 @@ fun Rate() {
             fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
-            color = Color(0xFF000000),
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     )
     ChipRow(timeFilters, emptySet())
@@ -666,7 +688,7 @@ fun Time() {
             fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight(600),
-            color = Color(0xFF000000),
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     )
     ChipRow(timeFilters, emptySet())
@@ -705,20 +727,20 @@ private fun ChipRow(
                             color = if (multipleCheck.contains(index)) {
                                 Color(color = 0xFFFFFFFF)
                             } else {
-                                Color(color = 0xFF129575)
+                                MaterialTheme.colorScheme.primary
                             }
 
                         )
                     )
                 },
                 border = FilterChipDefaults.filterChipBorder(
-                    borderColor = Color(color = 0xFF129575),
+                    borderColor = MaterialTheme.colorScheme.primary,
                     borderWidth = 1.dp
                 ),
                 selected = multipleCheck.contains(index),
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = Color.White,
-                    selectedContainerColor = Color(color = 0xFF129575)
+                    selectedContainerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(10.dp),
                 elevation = FilterChipDefaults.filterChipElevation(
@@ -732,7 +754,7 @@ private fun ChipRow(
                             tint = if (multipleCheck.contains(index)) {
                                 Color.White
                             } else {
-                                Color(color = 0xFF129575)
+                                MaterialTheme.colorScheme.primary
                             }
                         )
                     }
@@ -745,7 +767,7 @@ private fun ChipRow(
                             tint = if (multipleCheck.contains(index)) {
                                 Color.White
                             } else {
-                                Color(color = 0xFF129575)
+                                MaterialTheme.colorScheme.primary
                             }
                         )
                     }
@@ -768,7 +790,7 @@ fun Title() {
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_bold)),
                 fontWeight = FontWeight(600),
-                color = Color(0xFF000000)
+                color = MaterialTheme.colorScheme.onPrimary
             )
         )
     }
