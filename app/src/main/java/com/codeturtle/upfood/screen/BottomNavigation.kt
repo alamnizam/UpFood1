@@ -66,6 +66,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
+import com.codeturtle.upfood.naviagtion.AuthScreen
+import com.codeturtle.upfood.naviagtion.Graph
 import com.codeturtle.upfood.naviagtion.HomeNavGraph
 import com.codeturtle.upfood.naviagtion.sreen_route.BottomBarScreen
 import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
@@ -258,6 +260,10 @@ fun Navigation(
             }
 
             HomeNavScreen.RecipeDetail.route -> {
+                bottomBarState.value = false
+            }
+
+            AuthScreen.Login.route ->{
                 bottomBarState.value = false
             }
         }

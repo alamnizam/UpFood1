@@ -21,10 +21,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.BookmarkAdd
+import androidx.compose.material.icons.outlined.Logout
 import androidx.compose.material.icons.outlined.Reviews
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.outlined.Share
@@ -68,9 +68,16 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Recipe
+import com.codeturtle.upfood.naviagtion.AuthScreen
+import com.codeturtle.upfood.naviagtion.Graph
+import com.codeturtle.upfood.naviagtion.sreen_route.BottomBarScreen
+import com.codeturtle.upfood.screen.authentication.AuthViewModel
 import com.codeturtle.upfood.ui.theme.UpFoodTheme
 
 @Preview(
@@ -89,27 +96,26 @@ fun ProfilePreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.surface
         ) {
-            ProfileScreen()
+            ProfileScreen(viewModel = null, navController = rememberNavController())
         }
     }
 }
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    viewModel: AuthViewModel? = hiltViewModel(),
+    navController: NavHostController
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        ProfileToolbar(
-            onBackArrowClick = {
-
-            }
-        )
+        ProfileToolbar(viewModel = viewModel,navController = navController)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileToolbar(onBackArrowClick: () -> Unit) {
+fun ProfileToolbar(navController: NavHostController, viewModel: AuthViewModel?) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -182,6 +188,15 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
                                 onClick = {
                                     Toast.makeText(contextForToast, menuItemData.text, Toast.LENGTH_SHORT)
                                         .show()
+                                    if(menuItemData.text == "Logout"){
+                                        viewModel?.logout().also {
+                                            navController.navigate(Graph.AUTHENTICATION){
+                                                popUpTo(Graph.HOME){
+                                                    inclusive = true
+                                                }
+                                            }
+                                        }
+                                    }
                                     expanded = false
                                 },
                                 enabled = true
@@ -189,14 +204,6 @@ fun ProfileToolbar(onBackArrowClick: () -> Unit) {
                         }
                     }
 
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackArrowClick) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back Navigation"
-                        )
-                    }
                 }
             )
         }
@@ -229,6 +236,7 @@ fun getMenuItemsList(): ArrayList<MenuItemData> {
     listItems.add(MenuItemData(text = "Rate Recipe", icon = Icons.Outlined.Star))
     listItems.add(MenuItemData(text = "Review", icon = Icons.Outlined.Reviews))
     listItems.add(MenuItemData(text = "Unsaved", icon = Icons.Outlined.Save))
+    listItems.add(MenuItemData(text = "Logout", icon = Icons.Outlined.Logout))
 
     return listItems
 }

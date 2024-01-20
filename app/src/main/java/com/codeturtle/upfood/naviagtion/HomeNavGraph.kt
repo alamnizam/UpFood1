@@ -32,9 +32,10 @@ fun HomeNavGraph(navController: NavHostController) {
             NotificationScreen()
         }
         composable(route = BottomBarScreen.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(navController = navController)
         }
         searchNavGraph(navController = navController)
+        authNavGraph(navController = navController)
     }
 }
 
