@@ -43,11 +43,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -67,7 +65,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.naviagtion.AuthScreen
-import com.codeturtle.upfood.naviagtion.Graph
 import com.codeturtle.upfood.naviagtion.HomeNavGraph
 import com.codeturtle.upfood.naviagtion.sreen_route.BottomBarScreen
 import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
@@ -88,10 +85,6 @@ fun CustomBottomNavigation(
         BottomBarScreen.Notification,
         BottomBarScreen.Profile,
     )
-
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
 
     Box(
         modifier = Modifier
@@ -119,12 +112,13 @@ fun CustomBottomNavigation(
                                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.background)
                             )
                             Row {
-                                screens.forEachIndexed { index, screen ->
-                                    val isSelected = selectedItemIndex == index
+                                screens.forEach { screen ->
+                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                    val currentRoute = navBackStackEntry?.destination?.route
+                                    val isSelected = currentRoute == screen.route
                                     NavigationBarItem(
                                         selected = isSelected,
                                         onClick = {
-                                            selectedItemIndex = index
                                             navController.navigate(screen.route.lowercase()) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
