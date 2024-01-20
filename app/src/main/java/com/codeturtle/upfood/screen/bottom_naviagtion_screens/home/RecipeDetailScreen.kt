@@ -427,7 +427,7 @@ private fun TabIngredientProcedure(
                             color = if (selected) {
                                 Color(0xFFFFFFFF)
                             } else {
-                                MaterialTheme.colorScheme.primary
+                                MaterialTheme.colorScheme.tertiary
                             },
                             textAlign = TextAlign.Center,
                         )

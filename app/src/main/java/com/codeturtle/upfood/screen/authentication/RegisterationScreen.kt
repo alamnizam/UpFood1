@@ -74,11 +74,11 @@ import com.codeturtle.upfood.ui.theme.UpFoodTheme
 import java.util.regex.Pattern
 
 @Preview(
-    name="light-mode",
+    name = "light-mode",
     showBackground = true
 )
 @Preview(
-    name="dark-mode",
+    name = "dark-mode",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     showBackground = true
 )
@@ -125,9 +125,10 @@ fun RegistrationScreen(
                 }
 
                 is Resource.Success -> {
-                    Toast.makeText(context, "User register successfully!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "User register successfully!!", Toast.LENGTH_SHORT)
+                        .show()
                     Toast.makeText(context, "Verification email sent!!", Toast.LENGTH_SHORT).show()
-                    if(it.result.isEmailVerified){
+                    if (it.result.isEmailVerified) {
                         LaunchedEffect(Unit) {
                             navController.popBackStack(
                                 route = Graph.AUTHENTICATION,
@@ -135,7 +136,7 @@ fun RegistrationScreen(
                             )
                             navController.navigate(Graph.HOME)
                         }
-                    }else{
+                    } else {
                         Toast.makeText(context, "Please verify email!!", Toast.LENGTH_SHORT).show()
                     }
 
@@ -187,7 +188,6 @@ private fun SignUpFormSection(
     var isConfirmPasswordErrorVisible by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
-    var isError by rememberSaveable { mutableStateOf(false) }
     val charLimit = 8
     val context = LocalContext.current
     Spacer(modifier = Modifier.padding(10.dp))
@@ -209,12 +209,7 @@ private fun SignUpFormSection(
                     elevation = 3.dp,
                     shape = RoundedCornerShape(10.dp),
                     ambientColor = Color.Blue,
-                ),
-            border = if (isError) {
-                BorderStroke(width = 2.dp, color = Color.Red)
-            } else {
-                null
-            },
+                )
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -222,7 +217,10 @@ private fun SignUpFormSection(
                     .background(color = Color.White, shape = RoundedCornerShape(10))
                     .focusRequester(focusRequester = focusRequester),
                 value = name,
-                onValueChange = { name = it },
+                onValueChange = {
+                    name = it
+                    isNameErrorVisible = it.isEmpty()
+                },
                 singleLine = true,
                 placeholder = {
                     Text(
@@ -236,12 +234,17 @@ private fun SignUpFormSection(
                     )
                 },
 
-                isError = isError,
+                isError = isNameErrorVisible,
 
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF129575),
+                    errorCursorColor = MaterialTheme.colorScheme.primary,
+                    errorBorderColor = Color.Red,
+                    errorTextColor = MaterialTheme.colorScheme.primary,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFFD9D9D9),
-                    cursorColor = Color(0xFF129575),
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(10.dp),
                 keyboardOptions = KeyboardOptions(
@@ -285,12 +288,7 @@ private fun SignUpFormSection(
                     elevation = 3.dp,
                     shape = RoundedCornerShape(10.dp),
                     ambientColor = Color.Blue,
-                ),
-            border = if (isError) {
-                BorderStroke(width = 2.dp, color = Color.Red)
-            } else {
-                null
-            },
+                )
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -298,7 +296,15 @@ private fun SignUpFormSection(
                     .background(color = Color.White, shape = RoundedCornerShape(10))
                     .focusRequester(focusRequester = focusRequester),
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = {
+                    email = it
+                    isEmailErrorVisible = !isValidEmail(it)
+                    emailError = if (!isValidEmail(it)) {
+                        "Enter valid email"
+                    } else {
+                        ""
+                    }
+                },
                 singleLine = true,
                 placeholder = {
                     Text(
@@ -312,12 +318,17 @@ private fun SignUpFormSection(
                     )
                 },
 
-                isError = isError,
+                isError = isEmailErrorVisible,
 
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF129575),
+                    errorCursorColor = MaterialTheme.colorScheme.primary,
+                    errorBorderColor = Color.Red,
+                    errorTextColor = MaterialTheme.colorScheme.primary,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFFD9D9D9),
-                    cursorColor = Color(0xFF129575),
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
 
                 shape = RoundedCornerShape(10.dp),
@@ -362,12 +373,7 @@ private fun SignUpFormSection(
                     elevation = 3.dp,
                     shape = RoundedCornerShape(10.dp),
                     ambientColor = Color.Blue,
-                ),
-            border = if (isError) {
-                BorderStroke(width = 2.dp, color = Color.Red)
-            } else {
-                null
-            },
+                )
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -375,7 +381,16 @@ private fun SignUpFormSection(
                     .background(color = Color.White, shape = RoundedCornerShape(10))
                     .focusRequester(focusRequester = focusRequester),
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = {
+                    password = it
+                    isPasswordErrorVisible = it.length < charLimit
+                    passwordError = if (it.length < charLimit) {
+                        "password cannot less than 8 character"
+                    } else {
+                        ""
+                    }
+
+                },
                 singleLine = true,
                 placeholder = {
                     Text(
@@ -389,12 +404,17 @@ private fun SignUpFormSection(
                     )
                 },
 
-                isError = isError,
+                isError = isPasswordErrorVisible,
 
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF129575),
+                    errorBorderColor = Color.Red,
+                    errorCursorColor = MaterialTheme.colorScheme.primary,
+                    errorTextColor = MaterialTheme.colorScheme.primary,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFFD9D9D9),
-                    cursorColor = Color(0xFF129575),
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
 
                 trailingIcon = {
@@ -462,12 +482,7 @@ private fun SignUpFormSection(
                     elevation = 3.dp,
                     shape = RoundedCornerShape(10.dp),
                     ambientColor = Color.Blue,
-                ),
-            border = if (isError) {
-                BorderStroke(width = 2.dp, color = Color.Red)
-            } else {
-                null
-            },
+                )
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -475,7 +490,15 @@ private fun SignUpFormSection(
                     .background(color = Color.White, shape = RoundedCornerShape(10))
                     .focusRequester(focusRequester = focusRequester),
                 value = confirmPassword,
-                onValueChange = { confirmPassword = it },
+                onValueChange = {
+                    confirmPassword = it
+                    isConfirmPasswordErrorVisible = password != it
+                    confirmPasswordError = if (password != it) {
+                        "password and confirm password must be same"
+                    } else {
+                        ""
+                    }
+                },
                 singleLine = true,
                 placeholder = {
                     Text(
@@ -489,12 +512,17 @@ private fun SignUpFormSection(
                     )
                 },
 
-                isError = isError,
+                isError = isConfirmPasswordErrorVisible,
 
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF129575),
+                    errorCursorColor = MaterialTheme.colorScheme.primary,
+                    errorBorderColor = Color.Red,
+                    errorTextColor = MaterialTheme.colorScheme.primary,
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFFD9D9D9),
-                    cursorColor = Color(0xFF129575),
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
 
                 trailingIcon = {
@@ -552,12 +580,12 @@ private fun SignUpFormSection(
             modifier = Modifier.background(Color.Transparent),
             elevation = CardDefaults.cardElevation(10.dp),
             shape = RoundedCornerShape(6.dp),
-            border = BorderStroke(1.5.dp, color = MaterialTheme.colorScheme.tertiary)
+            border = BorderStroke(1.5.dp, color = MaterialTheme.colorScheme.primary)
         ) {
             Box(
                 modifier = Modifier
                     .size(25.dp)
-                    .background(if (isChecked.value) MaterialTheme.colorScheme.tertiary else Color.White)
+                    .background(if (isChecked.value) MaterialTheme.colorScheme.primary else Color.White)
                     .clickable {
                         isChecked.value = !isChecked.value
                     },
@@ -580,52 +608,54 @@ private fun SignUpFormSection(
     }
     Spacer(modifier = Modifier.padding(10.dp))
     CustomButton(buttonText = stringResource(R.string.registration)) {
-        val emailRegex = "^(.+)@(.+)$"
-        val pattern: Pattern = Pattern.compile(emailRegex)
-        val matcher = pattern.matcher(email)
-        if(name.isEmpty()){
-            nameError = "This field cannot be empty"
-            isError = true
-            isNameErrorVisible = true
-        }else if (email.isEmpty()) {
-            emailError = "This field cannot be empty"
-            isError = true
-            isEmailErrorVisible = true
-        } else if (!matcher.matches()) {
-            emailError = "Enter valid email"
-            isError = true
-            isEmailErrorVisible = true
-        } else if (password.isEmpty()) {
-            passwordError = "This field cannot be empty"
-            isError = true
-            isPasswordErrorVisible = true
-        } else if (password.length > charLimit) {
-            passwordError = "password cannot less than 8 character"
-            isError = true
-            isPasswordErrorVisible = true
-        } else if (confirmPassword.isEmpty()) {
-            confirmPasswordError = "This field cannot be empty"
-            isError = true
-            isConfirmPasswordErrorVisible = true
-        } else if (password != confirmPassword) {
-            confirmPasswordError = "password and confirm password must be same"
-            isError = true
-            isConfirmPasswordErrorVisible = true
-        } else if (!isChecked.value) {
+        if (!isChecked.value) {
             Toast.makeText(context, "Please accept term and condition", Toast.LENGTH_SHORT).show()
+        }
+        if (name.isEmpty()) {
+            isNameErrorVisible = true
+            nameError = "This field cannot be empty"
         } else {
-            nameError = ""
-            emailError = ""
-            passwordError = ""
-            confirmPasswordError = ""
-            isError = false
             isNameErrorVisible = false
+            nameError = ""
+        }
+        if (email.isEmpty()) {
+            isEmailErrorVisible = true
+            emailError = "This field cannot be empty"
+        }else{
             isEmailErrorVisible = false
+            emailError = ""
+        }
+        if (password.isEmpty()) {
+            isPasswordErrorVisible = true
+            passwordError = "This field cannot be empty"
+        }else{
             isPasswordErrorVisible = false
+            passwordError = ""
+        }
+        if (confirmPassword.isEmpty()) {
+            isConfirmPasswordErrorVisible = true
+            confirmPasswordError = "This field cannot be empty"
+        }else{
             isConfirmPasswordErrorVisible = false
-            viewModel?.signUp(name,email, password)
+            confirmPasswordError = ""
+        }
+        if (
+            !isNameErrorVisible &&
+            !isEmailErrorVisible &&
+            !isPasswordErrorVisible &&
+            !isConfirmPasswordErrorVisible &&
+            isChecked.value
+        ) {
+            viewModel?.signUp(name, email, password)
         }
     }
+}
+
+fun isValidEmail(email: String): Boolean {
+    val emailRegex = "^(.+)@(.+)$"
+    val pattern: Pattern = Pattern.compile(emailRegex)
+    val matcher = pattern.matcher(email)
+    return matcher.matches()
 }
 
 @Composable

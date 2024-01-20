@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,14 +40,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
+import com.codeturtle.upfood.naviagtion.Graph
+import com.codeturtle.upfood.screen.authentication.AuthViewModel
 import com.codeturtle.upfood.screen.utils.CustomButton
 
-@Preview(showSystemUi = true)
+@Preview
+@Composable
+fun SplashScreenPreview() {
+    SplashScreen(viewModel = null, navController = rememberNavController())
+}
+
 @Composable
 fun SplashScreen(
-    onClick: () -> Unit = {}
+    viewModel: AuthViewModel? = hiltViewModel(),
+    navController: NavHostController
 ) {
+    val currentUser = viewModel?.currentUser
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +83,15 @@ fun SplashScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     MidSection()
-                    BottomSection(onClick)
+                    BottomSection(onClick = {
+                        if(currentUser != null){
+                            navController.popBackStack()
+                            navController.navigate(route = Graph.HOME)
+                        }else{
+                            navController.popBackStack()
+                            navController.navigate(route = Graph.AUTHENTICATION)
+                        }
+                    })
                 }
 
             }
@@ -108,6 +130,8 @@ fun TopSection() {
             contentDescription = "image description",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
+                .width(200.dp)
+                .height(280.dp)
                 .scale(scale.value)
                 .padding(top = 60.dp)
         )

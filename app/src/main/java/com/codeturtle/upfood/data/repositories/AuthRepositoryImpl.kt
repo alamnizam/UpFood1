@@ -3,6 +3,7 @@ package com.codeturtle.upfood.data.repositories
 import com.codeturtle.upfood.data.Resource
 import com.codeturtle.upfood.data.utils.await
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import javax.inject.Inject
@@ -36,6 +37,9 @@ class AuthRepositoryImpl @Inject constructor (
         }catch (e: Exception){
             e.printStackTrace()
             Resource.Failure(e.message!!)
+        }catch (e: FirebaseAuthUserCollisionException){
+            e.printStackTrace()
+            Resource.Failure("The email address is already in use by another account.")
         }
     }
 

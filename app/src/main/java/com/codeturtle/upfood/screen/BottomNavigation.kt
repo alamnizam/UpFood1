@@ -34,8 +34,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -110,7 +113,8 @@ fun CustomBottomNavigation(
                                     .height(80.dp),
                                 painter = painterResource(R.drawable.bottom_navigation_bg),
                                 contentScale = ContentScale.FillBounds,
-                                contentDescription = "Bottom navigation background"
+                                contentDescription = "Bottom navigation background",
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.background)
                             )
                             Row {
                                 screens.forEachIndexed { index, screen ->
@@ -129,13 +133,19 @@ fun CustomBottomNavigation(
                                         }, label = {
                                             Text(
                                                 text = screen.title, color = if (isSelected) {
-                                                    Color(0xFF079471)
+                                                    MaterialTheme.colorScheme.primary
                                                 } else {
                                                     Color.Gray
                                                 }
                                             )
                                         },
                                         alwaysShowLabel = false,
+                                        colors = NavigationBarItemDefaults.colors(
+                                            selectedIconColor = Color.White,
+                                            selectedTextColor = MaterialTheme.colorScheme.tertiary,
+                                            indicatorColor = MaterialTheme.colorScheme.primary,
+                                            unselectedIconColor = MaterialTheme.colorScheme.tertiary
+                                        ),
                                         icon = {
                                             BadgedBox(badge = {
                                                 if (screen.badgeCount != null) {
@@ -151,11 +161,6 @@ fun CustomBottomNavigation(
                                                         screen.unSelectedIcon
                                                     },
                                                     contentDescription = screen.title,
-                                                    tint = if (isSelected) {
-                                                        Color(0xFF079471)
-                                                    } else {
-                                                        Color.Gray
-                                                    }
                                                 )
                                             }
                                         }
@@ -333,7 +338,7 @@ fun AnimatedFab(
     modifier: Modifier,
     icon: ImageVector? = null,
     opacity: Float = 1f,
-    backgroundColor: Color = Color(0xFF079471),
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
     onClick: () -> Unit = {}
 ) {
     FloatingActionButton(

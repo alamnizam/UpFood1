@@ -126,7 +126,6 @@ fun LoginScreen(
                 }
 
                 is Resource.Success -> {
-
                     LaunchedEffect(Unit) {
                         navController.popBackStack(
                             route = Graph.AUTHENTICATION,
@@ -234,9 +233,11 @@ private fun LoginFormSection(
                     isError = isError,
 
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF129575),
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
                         unfocusedBorderColor = Color(0xFFD9D9D9),
-                        cursorColor = Color(0xFF129575),
+                        cursorColor = MaterialTheme.colorScheme.primary
                     ),
 
                     shape = RoundedCornerShape(10.dp),
@@ -310,9 +311,11 @@ private fun LoginFormSection(
                     isError = isError,
 
                     colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = MaterialTheme.colorScheme.surface,
-                        cursorColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = Color(0xFFD9D9D9),
+                        cursorColor = MaterialTheme.colorScheme.primary
                     ),
 
                     trailingIcon = {
@@ -370,7 +373,7 @@ private fun LoginFormSection(
                 fontSize = 11.sp,
                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
                 fontWeight = FontWeight(400),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.tertiary,
                 textAlign = TextAlign.Center,
             ),
             onClick = {

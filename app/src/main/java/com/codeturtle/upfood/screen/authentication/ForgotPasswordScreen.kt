@@ -125,7 +125,7 @@ fun GotoLoginSection(navController: NavHostController) {
         nonUnderlineText = stringResource(R.string.go_to),
         underlineText = stringResource(R.string.login),
         onClick = {
-            navController.navigate(AuthScreen.SignUp.route)
+            navController.navigate(AuthScreen.Login.route)
         }
     )
 }
@@ -188,9 +188,11 @@ fun FormSection(viewModel: AuthViewModel?) {
                     isError = isError,
 
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF129575),
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
                         unfocusedBorderColor = Color(0xFFD9D9D9),
-                        cursorColor = Color(0xFF129575),
+                        cursorColor = MaterialTheme.colorScheme.primary
                     ),
 
                     shape = RoundedCornerShape(10.dp),

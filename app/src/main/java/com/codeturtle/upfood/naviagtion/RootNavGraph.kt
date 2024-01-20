@@ -17,10 +17,7 @@ fun RootNavigationGraph(navController: NavHostController = rememberNavController
     ) {
         authNavGraph(navController = navController)
         composable(route = Graph.SPLASH) {
-            SplashScreen {
-                navController.popBackStack()
-                navController.navigate(route = Graph.AUTHENTICATION)
-            }
+            SplashScreen(navController = navController)
         }
         composable(route = Graph.HOME) {
             BottomNavigationScreen()

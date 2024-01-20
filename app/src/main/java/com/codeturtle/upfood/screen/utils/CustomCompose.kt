@@ -59,7 +59,11 @@ fun CustomButton(buttonText: String,onClick: () -> Unit) {
                 )
             )
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-            Icon(Icons.Outlined.ArrowForward, contentDescription = "Arrow forward")
+            Icon(
+                Icons.Outlined.ArrowForward,
+                contentDescription = "Arrow forward",
+                tint = Color.White
+            )
         }
 
     }
