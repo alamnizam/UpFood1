@@ -65,11 +65,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.codeturtle.upfood.R
 import com.codeturtle.upfood.model.Creator
 import com.codeturtle.upfood.model.Recipe
+import com.codeturtle.upfood.naviagtion.sreen_route.BottomBarScreen
 import com.codeturtle.upfood.naviagtion.sreen_route.HomeNavScreen
 import com.codeturtle.upfood.screen.authentication.AuthViewModel
 import com.codeturtle.upfood.ui.theme.UpFoodTheme
@@ -112,6 +114,7 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             GreetingSection(
+                navController = navController,
                 name = "Hello ${viewModel?.currentUser?.displayName ?: "user"}",
             )
             Spacer(modifier = Modifier.padding(10.dp))
@@ -538,7 +541,8 @@ fun RecipeItem(
                             .wrapContentWidth()
                             .height(16.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(size = 20.dp)
+                                color = MaterialTheme.colorScheme.tertiary,
+                                shape = RoundedCornerShape(size = 20.dp)
                             )
                             .padding(start = 7.dp, top = 2.dp, end = 7.dp, bottom = 2.dp)
                     ) {
@@ -658,7 +662,8 @@ private fun SearchSection(
 
 @Composable
 fun GreetingSection(
-    name: String = "Hello user"
+    name: String = "Hello user",
+    navController: NavHostController
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
@@ -685,11 +690,15 @@ fun GreetingSection(
             )
         }
         Card(
-//            modifier = Modifier.clickable(onClick = {
-//                navController.navigate(
-//                    route = BottomBarScreen.Profile.route
-//                )
-//            }),
+            modifier = Modifier.clickable{
+                navController.navigate(BottomBarScreen.Profile.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 10.dp, pressedElevation = 10.dp
             ), colors = CardDefaults.cardColors(
@@ -701,7 +710,6 @@ fun GreetingSection(
                 painter = painterResource(id = R.drawable.profile_male),
                 contentDescription = "image description",
                 contentScale = ContentScale.FillBounds
-
             )
         }
 

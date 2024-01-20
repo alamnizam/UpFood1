@@ -86,6 +86,9 @@ fun CustomBottomNavigation(
         BottomBarScreen.Profile,
     )
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -113,8 +116,6 @@ fun CustomBottomNavigation(
                             )
                             Row {
                                 screens.forEach { screen ->
-                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                    val currentRoute = navBackStackEntry?.destination?.route
                                     val isSelected = currentRoute == screen.route
                                     NavigationBarItem(
                                         selected = isSelected,
